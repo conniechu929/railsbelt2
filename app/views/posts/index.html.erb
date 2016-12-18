@@ -1,0 +1,35 @@
+<form action='/users' method='post'>
+    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+    <input type='hidden' name='_method' value='delete'>
+    <input type='submit' value='Log Out'>
+</form>
+
+<h1>Hi, <%= @user.alias %>!</h1>
+
+<form action="/posts/create" method="post">
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <input type="hidden" name="user_id" value="<%= session[:user_id]%>">
+  <input type="text" name="content" placeholder="Post something witty">
+  <input type="submit" name="post" value="Idea!">
+</form>
+
+<% @posts.sort { |a,b| b.likes.sum(:like_count) <=> a.likes.sum(:like_count) }.each do |post| %>
+  <div>
+  <h4><a href="/users/<%= post.user.id %>"><%= post.user.alias %></a> says: <%= post.content %></h4>
+    <% if post.user_id == session[:user_id] %>
+    <form action="/bright_ideas" method="post">
+      <input type="hidden" name="post_id" value="<%= post.id %>">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete">
+    </form>
+    <%end%>
+      <form action='/likes' method='post'>
+        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+        <input type='hidden' name='user_id' value='<%= session[:user_id] %>'>
+        <input type="hidden" name="post_id" value="<%= post.id%>">
+        <input type='submit' name='Like' value='Like'>
+      </form>
+      <p><a href="/bright_ideas/<%= post.id %>"><%= post.likes.sum(:like_count) %> people</a> likes this</p>
+  </div>
+<% end %>

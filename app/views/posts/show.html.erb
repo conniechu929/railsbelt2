@@ -1,0 +1,28 @@
+<a href="/bright_ideas">Bright Ideas!</a>
+<form action='/users' method='post'>
+    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+    <input type='hidden' name='_method' value='delete'>
+    <input type='submit' value='Log Out'>
+</form>
+
+<h3><%= @post.user.name%> says: <%= @post.content %></h3>
+
+<p>People who like this:</p>
+<table>
+  <tr>
+    <th>
+      Alias
+    </th>
+    <th>
+      Name
+    </th>
+  </tr>
+  <tbody>
+    <% @post.likes.each do |like| %>
+    <tr>
+      <td style="text-align:center;"><a href="/users/<%= like.user.id %>"><%= like.user.alias %></a> </td>
+      <td style="text-align:center;"><%= like.user.name %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

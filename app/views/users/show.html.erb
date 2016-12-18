@@ -1,0 +1,15 @@
+<a href="/bright_ideas">Bright Ideas!</a>
+<form action='/users' method='post'>
+    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+    <input type='hidden' name='_method' value='delete'>
+    <input type='submit' value='Log Out'>
+</form>
+
+<p>Name: <%= @user.name %></p>
+<p>Alias: <%= @user.alias %></p>
+<p>Email: <%= @user.email %></p>
+<br>
+<hr>
+<br>
+<p>Total number of Posts: <%= @user.posts.count %></p>
+<p>Total number of likes: <%= @user.likes.sum(:like_count) %></p>
