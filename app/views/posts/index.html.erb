@@ -24,12 +24,16 @@
       <input type="submit" value="Delete">
     </form>
     <%end%>
+    <% if post.likes.any? {|like| like.user_id == session[:user_id]} %>
+      <p><a href="/bright_ideas/<%= post.id %>"><%= post.likes.count %> people</a> likes this</p>
+    <%else%>
       <form action='/likes' method='post'>
         <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
         <input type='hidden' name='user_id' value='<%= session[:user_id] %>'>
         <input type="hidden" name="post_id" value="<%= post.id%>">
         <input type='submit' name='Like' value='Like'>
       </form>
-      <p><a href="/bright_ideas/<%= post.id %>"><%= post.likes.sum(:like_count) %> people</a> likes this</p>
+      <p><a href="/bright_ideas/<%= post.id %>"><%= post.likes.count %> people</a> likes this</p>
+      <%end%>
   </div>
 <% end %>
