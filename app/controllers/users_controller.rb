@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_login, except: [:create, :login, :index]
+  # before_action :require_correct_user, only: [:show]
 
   def index
     @user = User.new
