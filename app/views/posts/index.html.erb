@@ -13,7 +13,7 @@
   <input type="submit" name="post" value="Idea!">
 </form>
 
-<% @posts.sort { |a,b| b.likes.sum(:like_count) <=> a.likes.sum(:like_count) }.each do |post| %>
+<% @posts.sort { |a,b| b.likes.count <=> a.likes.count }.each do |post| %>
   <div>
   <h4><a href="/users/<%= post.user.id %>"><%= post.user.alias %></a> says: <%= post.content %></h4>
     <% if post.user_id == session[:user_id] %>
